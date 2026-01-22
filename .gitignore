@@ -1,0 +1,10 @@
+data/
+venv
+*.bat
+*.zip
+*.png
+*.jpeg
+*.gif
+__pycache__/
+res/
+Testbilder Streamlit/
