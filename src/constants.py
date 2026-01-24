@@ -14,7 +14,7 @@ EPOCH = 10
 EDGE_CUTTING = 0.65
 
 # Number of initial nodes
-SARTING_NODES = 3
+STARTING_NODES = 3
 
 # Maximum number of nodes allowed
 MAX_NODES = 20

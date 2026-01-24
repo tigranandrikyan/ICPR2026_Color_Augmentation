@@ -326,7 +326,7 @@ def generate_fancy_gng_augmentations(image_data):
         indices = np.random.choice(len(image_data), REDUCED_TRAINING, replace=False)
         image_data = image_data[indices]
         
-    gng.initializeDistributedNode(image_data, constants.SARTING_NODES)
+    gng.initializeDistributedNode(image_data, constants.STARTING_NODES)
     bar = trange(constants.EPOCH)
     for i in bar:
         gng.resetBatch()
@@ -462,7 +462,9 @@ def create_cluster_cloud(all_images, axs, row_idx = 0):
             ax.scatter(points[:, 0], points[:, 1], c=colors, s=3)
             ax.set_xlim(0, 255)
             ax.set_ylim(0, 255)
-            ax.set_aspect("equal", "box")
+            ax.set_xticks(range(0, 256, 100))  
+            ax.set_yticks(range(0, 256, 100)) 
+            ax.set_aspect('equal', 'box')
 
 def create_gray_images(all_images, axs, row_idx = 0):
     images = all_images if len(all_images) <= MAX_UI_AUG_COUNT else all_images[:MAX_UI_AUG_COUNT]
@@ -640,7 +642,7 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
                     create_cluster_image([info["original"]] + info["aug_images"], cluster_ax)
                 
                 if figures:   
-                    fig.subplots_adjust(wspace=0.3, hspace=0.05)   
+                    fig.subplots_adjust(wspace=0.3, hspace=0.12)   
                     png_buf = fig_to_png(fig)
                     st.session_state.fig_png[filename] = png_buf.getvalue()
                
