@@ -17,9 +17,9 @@ import random
 
 
 #----------------------------UI Constants-------------------------------------------------------
-FANCYGNG_STR = "Fancy-GNG"
-FANCYPCA_STR = "Fancy-PCA"
-COLORJITTER_STR = "Color-Jitter"
+FANCYGNG_STR = "Fancy_GNG"
+FANCYPCA_STR = "Fancy_PCA"
+COLORJITTER_STR = "Color_Jitter"
 MAX_UI_AUG_COUNT = 10
 MAX_UI_AUG_COUNT += 1
 CLOUD_SIZE = 5000
@@ -62,7 +62,7 @@ def reset_for_new_run():
 
 
 #--------------------------Streamlit UI-------------------------------
-st.title("🧠 Fancy-GNG image augmentation")
+st.title("🧠 Fancy GNG image augmentation")
 st.write("Upload one or more images or take one with your camera.")
 
 
@@ -130,10 +130,10 @@ reduced_fancy_gng = False
 show_cluster_cloud = False
 #cluster
 if aug_option == FANCYGNG_STR:
-    #reduce fancy-GNG
-    reduced_fancy_gng = st.checkbox("Train Fancy-GNG on fewer data points",
+    #reduce fancy GNG
+    reduced_fancy_gng = st.checkbox("Train Fancy GNG on fewer data points",
                     help="At random (without repetition), select n pixels from the image to be used to train the GNG. " \
-                    "This can be used to accelerate Fancy-GNG.")
+                    "This can be used to accelerate Fancy GNG.")
     
     if figures:
         show_cluster = st.checkbox("Generate a pixel cluster map",
@@ -182,7 +182,7 @@ AUG_COUNT = st.sidebar.number_input("Number of augmentations", min_value=1, max_
 
 # Special parameter 
 if aug_option == COLORJITTER_STR:
-    st.sidebar.subheader("🧮 Color-Jitter parameter")
+    st.sidebar.subheader("🧮 Color Jitter parameter")
     BRIGHTNESS = st.sidebar.slider("Brightness", 0.0, 2.0, getattr(constants, "BRIGHTNESS", 0.5),
                 help="Varies the image brightness. Values above 1 make the image brighter, values below 1 make it darker.")
     CONTRAST = st.sidebar.slider("Contrast", 0.0, 2.0, getattr(constants, "CONTRAST", 0.5),
@@ -201,7 +201,7 @@ if aug_option == COLORJITTER_STR:
     
 
 elif aug_option == FANCYGNG_STR:
-    st.sidebar.subheader("🧮 Fancy-GNG parameter")
+    st.sidebar.subheader("🧮 Fancy GNG parameter")
     STANDARD_DEVIATION = st.sidebar.slider("Standard deviation", 1.0, 10.0,  float(getattr(constants, "FANCY_PCA_STANDARD_DEVIATION", 2.0)),
                     step=0.25,
                     help="Determines the strength of the color shift along the PCA components. Higher values produce stronger color variations.")
@@ -220,7 +220,7 @@ elif aug_option == FANCYGNG_STR:
     
 
 elif aug_option == FANCYPCA_STR:
-    st.sidebar.subheader("🧮 Fancy-PCA parameter")
+    st.sidebar.subheader("🧮 Fancy PCA parameter")
     STANDARD_DEVIATION = st.sidebar.slider("Standard deviation", 0.0, 10.0,  float(getattr(constants, "FANCY_PCA_STANDARD_DEVIATION", 2.0)),
                         step=0.25,
                         help="Determines the strength of the color shift along the PCA components. Higher values produce stronger color variations.")
@@ -249,7 +249,7 @@ if show_cluster_cloud:
                 help="Use all pixels of the image to generate the cluster cloud. This may take some time for larger images.")
     
 if reduced_fancy_gng and aug_option == FANCYGNG_STR:
-    st.sidebar.subheader("Number of pixels used for Fancy-GNG training")
+    st.sidebar.subheader("Number of pixels used for Fancy GNG training")
     REDUCED_TRAINING = st.sidebar.number_input("Number of pixels", 100, 1000000, REDUCED_TRAINING,
                 help="By default, the reduced GNG training uses 5000 random pixels from the image. " \
                 "This helps to train GNG faster and save computing power. " \
@@ -359,7 +359,7 @@ def generate_fancy_gng_augmentations(image_data):
 
 
 
-#-----------------------------------Color-Jitter------------------------------------------
+#-----------------------------------Color Jitter------------------------------------------
 def color_jitter(image_data, original_image):
     aug_images = generate_color_jitter_augmentations(original_image)
     st.session_state.image_results[filename] = {
