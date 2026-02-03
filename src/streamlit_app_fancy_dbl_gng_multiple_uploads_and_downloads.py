@@ -17,9 +17,9 @@ import random
 
 
 #----------------------------UI Constants-------------------------------------------------------
-FANCYGNG_STR = "Fancy_GNG"
-FANCYPCA_STR = "Fancy_PCA"
-COLORJITTER_STR = "Color_Jitter"
+FANCYGNG_STR = "Fancy GNG"
+FANCYPCA_STR = "Fancy PCA"
+COLORJITTER_STR = "Color Jitter"
 MAX_UI_AUG_COUNT = 10
 MAX_UI_AUG_COUNT += 1
 CLOUD_SIZE = 5000
