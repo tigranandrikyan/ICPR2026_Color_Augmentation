@@ -25,7 +25,7 @@ MAX_UI_AUG_COUNT += 1
 CLOUD_SIZE = 5000
 CLUSTER_CLOUD_SIZE = 5000
 REDUCED_TRAINING = 5000
-SUB_PLOT_MARGIN = 5
+SUB_PLOT_MARGIN = 7
 
 #-----------------------------Session------------------------------------------------------------
 def init_session():
