@@ -568,7 +568,7 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
                 
                 # Resize image if it exceeds 640 width or 480 height
                 if image.width > 640 or image.height > 480:
-                    image.thumbnail((640, 480), Image.Resampling.LANCZOS)
+                    image = image.thumbnail((640, 480), Image.Resampling.LANCZOS)
                 
                 image_array = np.asarray(image)
                 data_array = image_array.reshape(-1, 3) / constants.MAX_COLOR_VALUE
