@@ -13,6 +13,7 @@ import io, zipfile
 import datetime
 import fancy_pca as FP
 import random
+import tempfile
 
 
 
@@ -565,6 +566,8 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
             st.session_state.last_aug = aug_option
             with st.spinner(f"Process {filename} ..."):
                 image = Image.open(uploaded_file).convert("RGB")
+                tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
+                image.save(tmp.name)
                 image_array = np.asarray(image)
                 data_array = image_array.reshape(-1, 3) / constants.MAX_COLOR_VALUE
 
