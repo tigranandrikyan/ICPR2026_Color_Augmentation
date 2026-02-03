@@ -24,9 +24,8 @@ MAX_UI_AUG_COUNT = 10
 MAX_UI_AUG_COUNT += 1
 CLOUD_SIZE = 5000
 CLUSTER_CLOUD_SIZE = 5000
-
 REDUCED_TRAINING = 5000
-
+SUB_PLOT_MARGIN = 5
 
 #-----------------------------Session------------------------------------------------------------
 def init_session():
@@ -609,7 +608,7 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
                 image = Image.open(uploaded_file).convert("RGB")
                 rows = sum(1 for opt in option_buttons_ui if opt and opt) + 1
                 cols = constants.AUG_COUNT + 1 if constants.AUG_COUNT < MAX_UI_AUG_COUNT else MAX_UI_AUG_COUNT
-                fig = plt.figure(figsize=(image.width/100 * (cols + 1), image.height/100 * rows), dpi=100)
+                fig = plt.figure(figsize=(image.width/100 * (cols + 1) + SUB_PLOT_MARGIN, image.height/100 * rows + SUB_PLOT_MARGIN), dpi=100)
                 axs = np.empty((rows, cols), dtype=object)
                 if show_cluster and figures:
                     if rows == 1:
