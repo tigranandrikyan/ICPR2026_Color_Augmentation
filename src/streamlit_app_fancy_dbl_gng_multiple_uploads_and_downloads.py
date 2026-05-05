@@ -35,6 +35,19 @@ REDUCED_TRAINING = 5000
 #Margin in the subplot between the rows and column
 SUB_PLOT_MARGIN = 7
 
+# Plot font / layout
+TITLE_FONT_SIZE = 34
+TICK_LABEL_SIZE = 16
+TITLE_PAD = 16
+
+# Separate title spacing for image-like plots
+IMAGE_TITLE_PAD = 10
+IMAGE_TITLE_Y = 1.02
+
+# Separate title spacing for point/scatter plots
+PLOT_TITLE_PAD = TITLE_PAD
+PLOT_TITLE_Y = 1.02
+
 #-----------------------------Session------------------------------------------------------------
 
 #Init new session variables
@@ -501,7 +514,7 @@ def create_point_cloud(all_images, axs, row_idx = 0):
         ax = get_fig_ax(axs, row_idx, idx)
 
         #ui parameter of axis
-        ax.tick_params(width=3, labelsize=30)
+        ax.tick_params(width=3, labelsize=TICK_LABEL_SIZE)
         
         # use only at empty axes
         if len(ax.images) == 0 and len(ax.collections) == 0: 
@@ -529,7 +542,9 @@ def create_point_cloud(all_images, axs, row_idx = 0):
             ax.set_ylim(0, 255)
             ax.set_xticks(range(0, 256, 100))  
             ax.set_yticks(range(0, 256, 100)) 
-            ax.set_aspect('equal', 'box')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_box_aspect(1)
+            ax.set_title("Point Cloud" if idx == 0 else f"Point Cloud {idx}", fontsize=TITLE_FONT_SIZE, pad=PLOT_TITLE_PAD, y=PLOT_TITLE_Y)
 
 
 #Create point cluster figure 
@@ -542,7 +557,7 @@ def create_cluster_cloud(all_images, axs, row_idx = 0):
         #get current axis
         ax = get_fig_ax(axs, row_idx, idx)
         #ui parameter of axis
-        ax.tick_params(width=3, labelsize=30)
+        ax.tick_params(width=3, labelsize=TICK_LABEL_SIZE)
         
         # only at empty axes
         if len(ax.images) == 0 and len(ax.collections) == 0:  
@@ -577,7 +592,9 @@ def create_cluster_cloud(all_images, axs, row_idx = 0):
             ax.set_ylim(0, 255)
             ax.set_xticks(range(0, 256, 100))  
             ax.set_yticks(range(0, 256, 100)) 
-            ax.set_aspect('equal', 'box')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_box_aspect(1)
+            ax.set_title("Cluster Cloud" if idx == 0 else f"Cluster Cloud {idx}", fontsize=TITLE_FONT_SIZE, pad=PLOT_TITLE_PAD, y=PLOT_TITLE_Y)
 
 
 #Create gray image figure 
@@ -602,6 +619,9 @@ def create_gray_images(all_images, axs, row_idx = 0):
                 st.session_state.gray_images[filename]["images"].append(gray)
             if figures:
                 #show image 
+                ax.set_box_aspect(1)
+                ax.set_anchor('N')
+                ax.set_title("Grayscale" if idx == 0 else f"Grayscale {idx}", fontsize=TITLE_FONT_SIZE, pad=IMAGE_TITLE_PAD, y=IMAGE_TITLE_Y)
                 ax.imshow(gray, cmap="gray")
                 ax.axis("off")
 
@@ -640,6 +660,9 @@ def create_cluster_image(all_images, cluster_ax):
                 tmp_width = 0
                 tmp_height += 1
 
+        cluster_ax.set_box_aspect(1)
+        cluster_ax.set_anchor('C')
+        cluster_ax.set_title("Cluster Map", fontsize=TITLE_FONT_SIZE, pad=IMAGE_TITLE_PAD, y=IMAGE_TITLE_Y)
         #show final image
         cluster_ax.imshow(image)
         cluster_ax.axis("off")
@@ -660,7 +683,9 @@ def create_main_plot(all_images, axs, row_idx = 0):
             #show image 
             ax.imshow(img)
             ax.axis("off")
-            ax.set_title("Original" if idx == 0 else f"Aug {idx}", fontsize=45)
+            ax.set_box_aspect(1)
+            ax.set_anchor('N')
+            ax.set_title("Original" if idx == 0 else f"Aug {idx}", fontsize=TITLE_FONT_SIZE, pad=IMAGE_TITLE_PAD, y=IMAGE_TITLE_Y)
 
 
 #Create a png out of the figure
@@ -773,7 +798,9 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
                 #get figure columns
                 cols = constants.AUG_COUNT + 1 if constants.AUG_COUNT < MAX_UI_AUG_COUNT else MAX_UI_AUG_COUNT
                 #create basic figure
-                fig = plt.figure(figsize=(image.width/100 * (cols + 1) + SUB_PLOT_MARGIN, image.height/100 * rows + SUB_PLOT_MARGIN), dpi=100)
+                extra_col = 1 if show_cluster and figures else 0
+                total_cols = cols + extra_col
+                fig = plt.figure(figsize=(5.5 * total_cols, 5.5 * rows), dpi=100)
                 #create figure axis
                 axs = np.empty((rows, cols), dtype=object)
 
@@ -822,7 +849,7 @@ if (start_augmentation or st.session_state.done) and st.session_state.uploaded_f
                 
                 #save figure as png
                 if figures:   
-                    fig.subplots_adjust(wspace=0.3, hspace=0.12)   
+                    fig.subplots_adjust(wspace=0.35, hspace=0.55)   
                     png_buf = fig_to_png(fig)
                     st.session_state.fig_png[filename] = png_buf.getvalue()
                
